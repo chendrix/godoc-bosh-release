@@ -1,1 +1,6 @@
 name: godoc
+blobstore:
+  provider: s3
+  options:
+    bucket_name: godoc-bosh-release-blobs
+    region: us-west-1
