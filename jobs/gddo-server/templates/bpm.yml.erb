@@ -1,0 +1,30 @@
+<%
+db_server = ""
+
+if_p("db.server") do |server|
+  db_server = server
+end
+
+if_link("redis") do |redis|
+  db_server = "redis://#{redis.address}:#{redis.p("port")}"
+end
+%>
+
+processes:
+- name: gddo-server
+  executable: /var/vcap/data/packages/gddo-server/bin/gddo-server
+  args:
+  - --http
+  - <%= ":#{p('port')}" %>
+
+  - --db-server
+  - <%= db_server %>
+
+
+  - --assets
+  - /var/vcap/data/packages/gddo-server/assets
+  env:
+    GITHUB_TOKEN: <%= p('github_token') %>
+
+  capabilities:
+  - NET_BIND_SERVICE

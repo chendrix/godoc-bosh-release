@@ -1,0 +1,19 @@
+---
+name: gddo-server
+
+templates:
+  bpm.yml.erb: config/bpm.yml
+
+packages:
+- gddo-server
+
+properties:
+  port:
+    description: "Listening port."
+    default: 80
+  github_token:
+    description: "Github API Token to use when communicating with Github."
+  db.server:
+    description: "URI of Redis server (overrides BOSH links)."
+    default: "redis://127.0.0.1:6379"
+
