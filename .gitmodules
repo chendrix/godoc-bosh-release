@@ -1,0 +1,3 @@
+[submodule "src/github.com/golang/gddo"]
+	path = src/github.com/golang/gddo
+	url = https://github.com/golang/gddo.git

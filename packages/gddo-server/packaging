@@ -1,0 +1,13 @@
+set -eu
+
+source /var/vcap/packages/golang-1-linux/bosh/compile.env
+
+REPO_NAME=github.com/golang/gddo
+
+mkdir "${BOSH_INSTALL_TARGET}/bin"
+
+go build \
+  -o ${BOSH_INSTALL_TARGET}/bin/gddo \
+  "${REPO_NAME}/gddo-server"
+
+cp -a "${REPO_NAME}/assets" "${BOSH_INSTALL_TARGET}"
