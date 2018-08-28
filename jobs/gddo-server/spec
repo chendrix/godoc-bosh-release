@@ -7,6 +7,10 @@ templates:
 packages:
 - gddo-server
 
+consumes:
+- name: redis
+  type: redis
+
 properties:
   port:
     description: "Listening port."

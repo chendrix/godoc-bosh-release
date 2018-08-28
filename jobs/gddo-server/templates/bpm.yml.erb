@@ -6,13 +6,13 @@ if_p("db.server") do |server|
 end
 
 if_link("redis") do |redis|
-  db_server = "redis://#{redis.address}:#{redis.p("port")}"
+  db_server = "redis://:#{redis.p("password")}@#{redis.address}:#{redis.p("port")}"
 end
 %>
 
 processes:
 - name: gddo-server
-  executable: /var/vcap/data/packages/gddo-server/bin/gddo-server
+  executable: /var/vcap/packages/gddo-server/bin/gddo-server
   args:
   - --http
   - <%= ":#{p('port')}" %>
@@ -22,7 +22,7 @@ processes:
 
 
   - --assets
-  - /var/vcap/data/packages/gddo-server/assets
+  - /var/vcap/packages/gddo-server/assets
   env:
     GITHUB_TOKEN: <%= p('github_token') %>
 
