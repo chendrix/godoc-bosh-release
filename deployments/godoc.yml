@@ -1,0 +1,63 @@
+---
+name: godoc
+
+addons:
+- name: bpm
+  jobs:
+  - name: bpm
+    release: bpm
+
+releases:
+- name: godoc
+  version: latest
+- name: "redis"
+  version: ((redis_version))
+  url: "https://bosh.io/d/github.com/cloudfoundry-community/redis-boshrelease?v=((redis_version))"
+  sha1: ((redis_sha))
+- name: "bpm"
+  version: ((bpm_version))
+  url: "https://bosh.io/d/github.com/cloudfoundry-incubator/bpm-release?v=((bpm_version))"
+  sha1: ((bpm_sha))
+
+instance_groups:
+- name: gddo-server
+  instances: 1
+  azs: [z1]
+  networks: [{name: default}]
+  stemcell: xenial
+  vm_type: default
+  jobs:
+  - name: gddo-server
+    release: godoc
+    properties:
+      github_token: ((github_token))
+
+- name: redis
+  instances: 2
+  azs: [z1]
+  networks: [{name: default}]
+  stemcell: xenial
+  vm_type: default
+  persistent_disk: 10240
+  jobs:
+  - name: redis
+    release: redis
+    properties:
+      password: ((redis-password))
+
+variables:
+- name: redis-password
+  type: password
+
+stemcells:
+- alias: xenial
+  os: ubuntu-xenial
+  version: latest
+
+update:
+  canaries: 0
+  max_in_flight: 1
+  serial: true
+  canary_watch_time: 1000-20000
+  update_watch_time: 1000-20000
+
